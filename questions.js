@@ -1,179 +1,161 @@
+const question = document.getElementById("Question");
+const Timer = document.getElementById("timer");
+const answerA =  document.getElementById("A");
+const answerB =  document.getElementById("B");
+const answerC =  document.getElementById("C");
+const answerD =  document.getElementById("D");
+
 var questions = [
     {
-        title: "Which is not a coding language:",
-        choices: ["Python", "Javascript", "C++", "Spanish"],
-        answer: "Spanish"
+        question: "Which Data Type is not a primitive? ",
+        answerA: "Boolean",
+        answerB: "Number",
+        answerC: "String",
+        answerD: "Int",
+        Correct: "D"
     },
     {
-        title: "Code must alwasy be closed off with a ___.",
-        choices: [":", ";", "`", "}"],
-        answer: ";"
+        question: "What is the method for capitilizing every letter in this string 'javascript' ?",
+        answerA: "'javascript'.toCaps();",
+        answerB: "'javascript'.toUpperCase;",
+        answerC: "'javascript'.toUpperCase();",
+        answerD: "'javascript'.touppercase();",
+        Correct: "C"
     },
     {
-        title: "Which is not a software development stack.",
-        choices: ["MEAN", "MERN", "LAMP", "LARP"],
-        answer: "LARP"
+        question: "What is string interpolation? ",
+        answerA: "When you change a variable's value.",
+        answerB: "When you assign a string to a variable.",
+        answerC: "When you insert the value of a variable into a string.",
+        answerD: "When you insert a string into a string.",
+        Correct: "C"
     },
     {
-        title: "Which is not an sql data type.",
-        choices: ["CHAR", "VARCHAR", "INT", "DIV"],
-        answer: "DIV"
+        question: "What is the correct way to generate a random number? ",
+        answerA: "Math.random()",
+        answerB: "Number.random()",
+        answerC: "math.Random()",
+        answerD: "math.random()",
+        Correct: "A"
     },
     {
-        title: "Which is not a CSS framework.",
-        choices: ["Foundation", "Bulma", "Susy", "Shoestrap"],
-        answer: "Shoestrap"
+        question: "Inside which HTML element do we put the JavaScript? ",
+        answerA: "'<js>'",
+        answerB: "'<script>'",
+        answerC: "'<scripting>'",
+        answerD: "'<javascript>'",
+        Correct: "B"
     },
-
+    {
+        question: "How do you add comments in javascript? ",
+        answerA: "*text-text-text*",
+        answerB: "//text-text-text//",
+        answerC: "/*text-text-text*/",
+        answerD: "Both B and C",
+        Correct: "D"
+    },
+    {
+        question: "What is the correct syntax for making an array? ",
+        answerA: "{item, item, item}",
+        answerB: "[item, item, item]",
+        answerC: "(item, item, item)",
+        answerD: "{[item, item, item]}",
+        Correct: "B"
+    },
+    {
+        question: "What is the differnece between var and let? ",
+        answerA: "var is function scoped and let is block scoped",
+        answerB: "let is function scoped and var is block scoped",
+        answerC: "var is page scoped and let is block scoped",
+        answerD: "none of the above",
+        Correct: "A"
+    },
+    {
+        question: "Which of these is not a type of loop within javascript? ",
+        answerA: "for",
+        answerB: "for/up",
+        answerC: "for/in",
+        answerD: "for/of",
+        Correct: "B"
+    },
+    {
+        question: "Which of these is not a conditional statement within javascript? ",
+        answerA: "if",
+        answerB: "else",
+        answerC: "switch",
+        answerD: "or",
+        Correct: "D"
+    }
 ];
 
-var score = 0;
-var questionIndex = 0;
+const lastQ = questions.length -1;
+let currentQ = 0;
 
-var currentTime = document.querySelector("#currentTime");
-var timer = document.querySelector("#startTime");
-var questionsDiv = document.querySelector("#questionsDiv");
-var wrapper = document.querySelector("#wrapper");
+function renderQ(){
 
-var secondsLeft = 76;
-var holdInterval = 0;
-var penalty = 10;
-var ulCreate = document.createElement("ul");
+    let q = questions[currentQ];
 
-timer.addEventListener("click", function () {
-    if (holdInterval === 0) {
-        holdInterval = setInterval(function () {
-            secondsLeft--;
-            currentTime.textContent = "Time: " + secondsLeft;
+    question.innerHTML = "<h1>"+q.question+"<h1>";
+    answerA.innerHTML = q.answerA;
+    answerB.innerHTML = q.answerB;
+    answerC.innerHTML = q.answerC;
+    answerD.innerHTML = q.answerD;
+};
 
-            if (secondsLeft <= 0) {
-                clearInterval(holdInterval);
-                allDone();
-                currentTime.textContent = "Time's up!";
-            }
-        }, 1000);
+var Score = 0;
+console.log(Score);
+
+function Validate(answer){
+    if(questions[currentQ].Correct == answer){
+        Score ++;
+        announceCorrect();
+    }else{
+        announceWrong();
     }
-    render(questionIndex);
-});
-
-function render(questionIndex) {
-    questionsDiv.innerHTML = "";
-    ulCreate.innerHTML = "";
-    for (var i = 0; i < questions.length; i++) {
-        var userQuestion = questions[questionIndex].title;
-        var userChoices = questions[questionIndex].choices;
-        questionsDiv.textContent = userQuestion;
+    if (currentQ < lastQ){
+        currentQ++;
+        renderQ();
+    }else{
+        renderScorebtn();
     }
-    userChoices.forEach(function (newItem) {
-        var listItem = document.createElement("li");
-        listItem.textContent = newItem;
-        questionsDiv.appendChild(ulCreate);
-        ulCreate.appendChild(listItem);
-        listItem.addEventListener("click", (compare));
-    })
+};
+
+var sec = 100;
+
+function timer(){
+    var timer = setInterval(function(){
+        Timer.innerHTML='00:'+sec;
+        sec--;
+        if (sec < 0) {
+            clearInterval(timer);
+            window.location.href = "HighScores.html";
+        }
+    }, 1000);
+};
+
+function announceCorrect(){
+    alert("That is correct!!!");
+};
+
+function announceWrong(){
+    sec -= 10;
+    alert("That is wrong minus 10 seconds.");
+};
+
+function renderScorebtn(){
+    let btn = document.createElement("button");
+    btn.innerHTML = "go to scores"
+    document.body.appendChild(btn);
+    btn.onclick = function(){
+        location.href = "Highscores.html";
+    }
 }
 
-function compare(event) {
-    var element = event.target;
-
-    if (element.matches("li")) {
-
-        var createDiv = document.createElement("div");
-        createDiv.setAttribute("id", "createDiv");
-
-        if (element.textContent == questions[questionIndex].answer) {
-            score++;
-            createDiv.textContent = "Correct! The answer is:  " + questions[questionIndex].answer;
-        } else {
-            secondsLeft = secondsLeft - penalty;
-            createDiv.textContent = "Wrong! The correct answer is:  " + questions[questionIndex].answer;
-        }
-
-    }
-
-    questionIndex++;
-
-    if (questionIndex >= questions.length) {
-        allDone();
-        createDiv.textContent = "End of quiz!" + " " + "You got  " + score + "/" + questions.length + " Correct!";
-    } else {
-        render(questionIndex);
-    }
-    questionsDiv.appendChild(createDiv);
-
+function endscore(){
+    localStorage.setItem("score", Score);
 }
 
-function allDone() {
-    questionsDiv.innerHTML = "";
-    currentTime.innerHTML = "";
-
-    var createH1 = document.createElement("h1");
-    createH1.setAttribute("id", "createH1");
-    createH1.textContent = "All Done!"
-
-    questionsDiv.appendChild(createH1);
-
-    var createP = document.createElement("p");
-    createP.setAttribute("id", "createP");
-
-    questionsDiv.appendChild(createP);
-
-    if (secondsLeft >= 0) {
-        var timeRemaining = secondsLeft;
-        var createP2 = document.createElement("p");
-        clearInterval(holdInterval);
-        createP.textContent = "Your final score is: " + timeRemaining;
-
-        questionsDiv.appendChild(createP2);
-    }
-
-
-    var createLabel = document.createElement("label");
-    createLabel.setAttribute("id", "createLabel");
-    createLabel.textContent = "Enter your initials: ";
-
-    questionsDiv.appendChild(createLabel);
-
-    var createInput = document.createElement("input");
-    createInput.setAttribute("type", "text");
-    createInput.setAttribute("id", "initials");
-    createInput.textContent = "";
-
-    questionsDiv.appendChild(createInput);
-
-
-    var createSubmit = document.createElement("button");
-    createSubmit.setAttribute("type", "submit");
-    createSubmit.setAttribute("id", "Submit");
-    createSubmit.textContent = "Submit";
-
-    questionsDiv.appendChild(createSubmit);
-
-    createSubmit.addEventListener("click", function () {
-        var initials = createInput.value;
-
-        if (initials === null) {
-
-            console.log("No value entered!");
-
-        } else {
-            var finalScore = {
-                initials: initials,
-                score: timeRemaining
-            }
-            console.log(finalScore);
-            var allScores = localStorage.getItem("allScores");
-            if (allScores === null) {
-                allScores = [];
-            } else {
-                allScores = JSON.parse(allScores);
-            }
-            allScores.push(finalScore);
-            var newScore = JSON.stringify(allScores);
-            localStorage.setItem("allScores", newScore);
-
-            window.location.replace("./HighScores.html");
-        }
-    });
-
+function startTest(){
+    renderQ();
+    timer();
 }
