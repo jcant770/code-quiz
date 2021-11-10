@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Code Quiz</title>
+</head>
+<body onload="startTest()">
+    <div id="Container">
+        <div id="Question"></div>
+        <div id="Answers">
+            <div class="answer" id="A" onclick="Validate('A')"></div>
+            <div class="answer" id="B" onclick="Validate('B')"></div>
+            <div class="answer" id="C" onclick="Validate('C')"></div>
+            <div class="answer" id="D" onclick="Validate('D')"></div>
+        </div>
+    </div>
+
+    <div id="time">
+        <h2>Time Left</h2>
+        <p id="timer">00:100</p>
+    </div>
+    <script src="questions.js"></script>
+</body>
+</html>
