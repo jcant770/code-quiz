@@ -1,5 +1,6 @@
 const question = document.getElementById("Question");
 const Timer = document.getElementById("timer");
+const HSC = document.getElementById("Highscorecont");
 const answerA =  document.getElementById("A");
 const answerB =  document.getElementById("B");
 const answerC =  document.getElementById("C");
@@ -39,11 +40,11 @@ var questions = [
         Correct: "A"
     },
     {
-        question: "Inside which HTML element do we put the JavaScript? ",
-        answerA: "'<js>'",
-        answerB: "'<script>'",
-        answerC: "'<scripting>'",
-        answerD: "'<javascript>'",
+        question: "Which is not a built in method? ",
+        answerA: "length()",
+        answerB: "poof()",
+        answerC: "pop()",
+        answerD: "push()",
         Correct: "B"
     },
     {
@@ -107,8 +108,8 @@ console.log(Score);
 
 function Validate(answer){
     if(questions[currentQ].Correct == answer){
-        Score ++;
         announceCorrect();
+        endscore();
     }else{
         announceWrong();
     }
@@ -117,6 +118,7 @@ function Validate(answer){
         renderQ();
     }else{
         renderScorebtn();
+        displayScore();
     }
 };
 
@@ -135,6 +137,7 @@ function timer(){
 
 function announceCorrect(){
     alert("That is correct!!!");
+    Score++;
 };
 
 function announceWrong(){
@@ -152,7 +155,12 @@ function renderScorebtn(){
 }
 
 function endscore(){
-    localStorage.setItem("score", Score);
+    totalS = Score + "/10";
+    localStorage.setItem("totalS", totalS );
+}
+
+function displayScore(){
+    HSC.innerHTML = "<p> Your score is " + localStorage.getItem('totalS') + "<p>";
 }
 
 function startTest(){
